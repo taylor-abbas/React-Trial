@@ -2,6 +2,7 @@ import React from 'react'
 import ToDo from './todo'
 
 export default function List (props) {
+    console.log("list from list.js "  , props.list);
     let listStyle = {
         minHeight : '70vh',
         margin : '40px auto'
@@ -9,13 +10,14 @@ export default function List (props) {
     return (
         <div className = "container" style={listStyle}>
             <h3 className="text-center my-3">List do be like</h3>
+            <ul>
             {props.list.length !== 0 ? 
                 props.list.map((item)=>{
                     // for each element(-item) in list the map function returns the stated value 
                     return(
-                        <>
-                        <ToDo key={item.key} todo={item} onDelete={props.onDelete}/><hr/>
-                        </>
+                        <div key={item.key}>
+                        <ToDo todo={item} onDelete={props.onDelete}/><hr/>
+                        </div>
                     )
                 }):
                 <div className="card">
@@ -24,6 +26,7 @@ export default function List (props) {
                     </div>
                 </div>
             }
+            </ul>
         </div>
     )
 }

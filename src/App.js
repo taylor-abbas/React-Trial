@@ -7,22 +7,21 @@ import React, { useState, useEffect } from 'react';
 
 function App() {
 	let initList = [[]];
-	let idx = JSON.parse(localStorage.getItem('idx'));
+	let idx;
 	console.log(localStorage.getItem('list'));
 	if(localStorage.getItem('list') === null){
 		initList = [];
 		console.log("NOT FOUND");
 	}else{
-		// initList = ;
 		initList = JSON.parse(localStorage.getItem('list'));
-		// console.log("FOUND");
-		// console.log("initList", zinitList);
 	}
 	const AaddToDo = (title, desc)=>{
 		console.log("Added task " , title);
-		if(idx === null){
+		if(list.length > 0)
+			idx = list[list.length - 1].key;
+		else
 			idx = 0;
-		}
+		
 		idx++;
 		console.log(idx);
 		const newTodo ={
@@ -41,7 +40,7 @@ function App() {
 		}))
 		localStorage.setItem('list', JSON.stringify(list));
 	}
-	const [list, setList] = useState([initList]);
+	const [list, setList] = useState(initList);
 	useEffect(() => {
 		localStorage.setItem('list', JSON.stringify(list));
 	}, [list]);
