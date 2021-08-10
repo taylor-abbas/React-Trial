@@ -12,23 +12,26 @@ function App() {
 		initList = [];
 		console.log("NOT FOUND");
 	}else{
-		initList = localStorage.getItem('list');
+		// initList = ;
+		initList = JSON.parse(localStorage.getItem('list'));
 		console.log("FOUND");
 	}
 	const AaddToDo = (title, desc)=>{
 		console.log("Added task " , title);
 		let idx = 0;
-		if(list.length > 0){
-			idx = list[list.length - 1].key + 1;
+		for(let i in list){
+			idx = Math.max(i.key, idx);
 		}
+		idx++;
 		console.log(idx);
 		const newTodo ={
 			key : idx,
 			title : title,
 			desc : desc
 		};
-		console.log(newTodo);
-		setList([...list , newTodo]);
+		console.log(newTodo, idx);
+		// setList([...list , newTodo]);
+		setList(list => [...list, newTodo])
 	}
 	const onDelete = (task)=>{
 		console.log("Delete task " , task.title);
@@ -38,7 +41,10 @@ function App() {
 	}
 	const [list, setList] = useState([initList]);
 	useEffect(() => {
-		localStorage.setItem('list', list);
+		localStorage.setItem('list', JSON.stringify.list);
+		// for(let item in localStorage.getItem('list')){
+		// 	console.log(item);
+		// }
 	}, [list]);
 	return (
 		<>
