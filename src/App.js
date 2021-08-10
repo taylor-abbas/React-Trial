@@ -3,14 +3,25 @@ import Header from './Comps/header'
 import List from './Comps/list'
 import Footer from './Comps/footer'
 import AddToDo from './Comps/AddToDo';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function App() {
-	const addToDo = (title, desc)=>{
+	let initList = [];
+	console.log(localStorage.getItem('list'));
+	if(localStorage.getItem('list') === null){
+		initList = [];
+		console.log("NOT FOUND");
+	}else{
+		initList = localStorage.getItem('list');
+		console.log("FOUND");
+	}
+	const AaddToDo = (title, desc)=>{
 		console.log("Added task " , title);
 		let idx = 0;
-		if(list.length === 0) idx = 0;
-		else idx = list[idx].key+1;
+		if(list.length > 0){
+			idx = list[list.length - 1].key + 1;
+		}
+		console.log(idx);
 		const newTodo ={
 			key : idx,
 			title : title,
@@ -19,18 +30,21 @@ function App() {
 		console.log(newTodo);
 		setList([...list , newTodo]);
 	}
-	const onDelete = (key)=>{
-		console.log("Delete task " , key.title);
+	const onDelete = (task)=>{
+		console.log("Delete task " , task.title);
 		setList(list.filter((e)=>{
-			return e!== key;
+			return e!== task;
 		}))
 	}
-	const [list, setList] = useState([]);
+	const [list, setList] = useState([initList]);
+	useEffect(() => {
+		localStorage.setItem('list', list);
+	}, [list]);
 	return (
 		<>
 			<Header title = "ToDo App" searchBar = {false}/>
 			<div className='mx-3'>
-				<AddToDo addToDo={addToDo}/>
+				<AddToDo addToDo={AaddToDo}/>
 				<List list={list} onDelete={onDelete}/>
 			</div>
 			<Footer/>
